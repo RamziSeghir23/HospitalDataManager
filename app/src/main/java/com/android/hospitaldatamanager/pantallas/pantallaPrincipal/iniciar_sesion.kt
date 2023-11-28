@@ -88,11 +88,11 @@ fun SignUp() {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Don't have an account ?", fontSize = 12.sp,
+            text = "¿ No tienes una cuenta ?", fontSize = 12.sp,
             color = Color(0xFFB5B5B5)
         )
         Text(
-            text = "Sign up.",
+            text = "Registrar.",
             modifier = Modifier.padding(horizontal = 8.dp),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -151,7 +151,7 @@ fun LoginDivider() {
         )
 
         Text(
-            text = "OR",
+            text = "O",
             modifier = Modifier.padding(horizontal = 6.dp),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -180,7 +180,7 @@ fun LoginButton(LoginEnable: Boolean) {
 
         )
     ) {
-        Text(text = "Log In")
+        Text(text = "Iniciar sesion ")
     }
 }
 fun enabledLogin(email: String, password: String) =
@@ -191,8 +191,8 @@ fun enabledLogin(email: String, password: String) =
 @Composable
 fun FprgotPassword(modifier: Modifier) {
     Text(
-        text = "Forgot password ?",
-        fontSize = 12.sp,
+        text = "Has olvidado tu contraseña ?",
+        fontSize = 10.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xff2268Da),
         modifier = modifier
@@ -209,7 +209,7 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
         value = password, onValueChange = { onTextChanged(it) },
         modifier = Modifier
             .fillMaxWidth(),
-        label = { Text(text = "Password", color = Color.Black, fontSize = 12.sp) },
+        label = { Text(text = "Contraseña", color = Color.Black, fontSize = 12.sp) },
         maxLines = 1,
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
@@ -248,7 +248,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
         },
         modifier = Modifier
             .fillMaxWidth(),
-        label = { Text(text = "Phone number , Username or Email", color = Color.Black, fontSize = 12.sp) },
+        label = { Text(text = "DNI - Correo electronico", color = Color.Black, fontSize = 12.sp) },
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -267,7 +267,14 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 @Composable
 fun ImageLogo(modifier: Modifier) {
 
-Image(painterResource(id = R.drawable.pngwing_com )  , contentDescription ="" ,Modifier.size(300.dp).padding(start = 80.dp))
+Image(painterResource(id = R.drawable.pngwing_com )  , contentDescription ="" ,
+    Modifier
+        .size(300.dp)
+        .padding(start = 80.dp))
+    Column {
+        Text(text = "Bienvenido  de  nuevo !", fontSize = 30.sp)
+        Text(text = "Inicia sesiosesión para continucontinuar ",color = Color(0xF5979595), fontSize = 15.sp)
+    }
 }
 
 

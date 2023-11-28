@@ -63,6 +63,7 @@ import com.android.hospitaldatamanager.R
 @Composable
 fun RegistroDoctores() {
     var nombreCompleto by remember { mutableStateOf("") }
+    var dni by remember { mutableStateOf("") }
     var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
     var numeroDeIdentificacion by remember { mutableStateOf("") }
     var especialidadMédica by remember { mutableStateOf("") }
@@ -124,6 +125,30 @@ fun RegistroDoctores() {
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Dni __
+                OutlinedTextField(
+                    value = dni, onValueChange = { dni = it },
+                    label = {
+                        Text(
+                            "DNI - NIE",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.dni),
+                            contentDescription = "Gender",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
 
@@ -204,6 +229,7 @@ fun RegistroDoctores() {
                         }
                     }
                 }
+
                 //--- Número de Identificación Médica ---
                 OutlinedTextField(
                     value = numeroDeIdentificacion, onValueChange = { numeroDeIdentificacion = it },

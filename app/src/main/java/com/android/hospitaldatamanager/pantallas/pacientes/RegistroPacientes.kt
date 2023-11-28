@@ -9,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,6 +62,7 @@ import com.android.hospitaldatamanager.R
 @Composable
 fun RegistroPasientes() {
     var NombreCompleto by remember { mutableStateOf("") }
+    var dni by remember { mutableStateOf("") }
     var FechaDeNacimiento by remember { mutableStateOf("") }
     var GeneroDeElPaciente by remember { mutableStateOf("") }
     var fotoPaciente by remember { mutableStateOf<Uri?>(null) }
@@ -125,6 +125,30 @@ fun RegistroPasientes() {
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Dni __
+                OutlinedTextField(
+                    value = dni, onValueChange = { dni = it },
+                    label = {
+                        Text(
+                            "DNI - NIE",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.dni),
+                            contentDescription = "Gender",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
                 //--- fecha de nacimientode el paciente ---
