@@ -62,8 +62,7 @@ import com.android.hospitaldatamanager.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroPasientes (navigationController: NavHostController) {
-
+fun RegistroPasientesEn(navigationController: NavHostController) {
     var NombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var FechaDeNacimiento by remember { mutableStateOf("") }
@@ -88,7 +87,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable { navigationController.navigate("Seleccion") }
+                        modifier = Modifier.clickable {  navigationController.navigate("SeleccionEn") }
                     )
                 }
             },
@@ -96,13 +95,13 @@ fun RegistroPasientes (navigationController: NavHostController) {
         Box() {
             Column {
                 Text(
-                    text = "Formulario de Datos",
+                    text = "Data Form",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    text = "Información Personal",
+                    text = "Personal information",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 16.sp
                 )
@@ -120,7 +119,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = NombreCompleto,
                     onValueChange = { NombreCompleto = it },
-                    label = { Text("Nombre completo", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Full name", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,7 +143,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.dni),
-                            contentDescription = "Nie",
+                            contentDescription = "DNI - NIE",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -159,7 +158,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = FechaDeNacimiento,
                     onValueChange = { FechaDeNacimiento = it },
-                    label = { Text("Fecha de nacimiento", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Birthdate", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.DateRange, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -173,7 +172,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 //--- Género de el paciente ---
                 OutlinedTextField(
                     value = GeneroDeElPaciente, onValueChange = { GeneroDeElPaciente = it },
-                    label = { Text("Género", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Gender", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.gender_fluid),
@@ -241,7 +240,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                             }
                         }
                         Text(
-                            text = "Sub tu fotografía",
+                            text = "Submit your photo",
                             modifier = Modifier.padding(22.dp),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.ExtraBold
@@ -258,7 +257,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                             shape = RoundedCornerShape(10.dp),
                         ) {
                             Text(
-                                text = "Seleccionar",
+                                text = "Select",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -269,7 +268,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = direccion,
                     onValueChange = { direccion = it },
-                    label = { Text("Direccíon", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Address", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.LocationOn, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -284,7 +283,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = numeroDeTelefono,
                     onValueChange = { numeroDeTelefono = it },
-                    label = { Text("Número de teléfono", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Phone number", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -299,7 +298,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Correo electrónico", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Email", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -314,7 +313,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = contrasena,
                     onValueChange = { contrasena = it },
-                    label = { Text("Contraseña", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -328,7 +327,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 //--- Información Médical ---
 
                 Text(
-                    text = "Información Médical",
+                    text = "Medical Information",
                     modifier = Modifier.padding(start = 10.dp, top = 14.dp),
                     fontSize = 16.sp
                 )
@@ -338,11 +337,11 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 //--- Diagnóstico médico ---
                 OutlinedTextField(
                     value = Diagnosticomedico, onValueChange = { Diagnosticomedico = it },
-                    label = { Text("Diagnóstico médico", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Medical diagnostic", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.stethoscope),
-                            contentDescription = "Diagnóstico",
+                            contentDescription = "Medical diagnostic",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -356,11 +355,11 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 //--- Nombre del  tratante ---
                 OutlinedTextField(
                     value = Nombredeltratante, onValueChange = { Nombredeltratante = it },
-                    label = { Text("Nombre del  tratante", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Name of the treating doctor", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.doctor),
-                            contentDescription = "Nombre del  tratante",
+                            contentDescription = "Doctor's Name",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -375,7 +374,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = Numeromedico,
                     onValueChange = { Numeromedico = it },
-                    label = { Text("Número de teléfono del médico tratante", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Tel number of the treating doctor", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -389,11 +388,11 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 //--- Medicamentos actuales (nombre, dosis, frecuencia): ---
                 OutlinedTextField(
                     value = MedicamentosActuales, onValueChange = { MedicamentosActuales = it },
-                    label = { Text("Medicamentos actuale", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Current medications", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.pill),
-                            contentDescription = "Medicamentos actuale",
+                            contentDescription = "Current medications",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -416,7 +415,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                     ),
                     shape = RoundedCornerShape(10.dp),
                     ) {
-                    Text(text = "Registrar" , fontSize = 14.sp , fontWeight = FontWeight.Bold)
+                    Text(text = "Register" , fontSize = 14.sp , fontWeight = FontWeight.Bold)
                 }
             }
             }

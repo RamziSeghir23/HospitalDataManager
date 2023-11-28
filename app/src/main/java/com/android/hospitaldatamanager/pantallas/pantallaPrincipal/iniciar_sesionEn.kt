@@ -52,7 +52,7 @@ import com.android.hospitaldatamanager.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun iniciar_sesion(navigationController: NavHostController) {
+fun iniciar_sesionEn(navigationController: NavHostController) {
     TopAppBar(
         { },
         navigationIcon = {
@@ -61,7 +61,7 @@ fun iniciar_sesion(navigationController: NavHostController) {
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = Color(0xFF000000),
-                    modifier = Modifier.clickable { navigationController.navigate("main_App") }
+                    modifier = Modifier.clickable { navigationController.navigate("main_AppEn") }
                 )
             }
         },
@@ -72,37 +72,37 @@ fun iniciar_sesion(navigationController: NavHostController) {
             .padding(10.dp)
     ) {
 
-        Body(
+        BodyEn(
             Modifier.align(Alignment.Center)
         )
-        Footer(Modifier.align(Alignment.BottomCenter), navigationController)    }
+        FooterEn(Modifier.align(Alignment.BottomCenter), navigationController)    }
 
 }
 
 @Composable
-fun Footer(modifier: Modifier, navigationController: NavHostController) {
+fun FooterEn(modifier: Modifier, navigationController: NavHostController) {
     Column(modifier = modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.size(24.dp))
-        SignUp(navigationController = navigationController)
+        SignUpEn(navigationController = navigationController)
         Spacer(modifier = Modifier.size(24.dp))
     }
 }
 
 @Composable
-fun SignUp(navigationController: NavHostController) {
+fun SignUpEn(navigationController: NavHostController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "¿ No tienes una cuenta ?",
+            text = "You do not have an account?",
             fontSize = 12.sp,
             color = Color(0xFFB5B5B5)
         )
         Text(
-            text = "Registrar.",
+            text = "Sign up.",
             modifier = Modifier.padding(horizontal = 8.dp).clickable {
-                navigationController.navigate("Seleccion")
+                navigationController.navigate("SeleccionEn")
             },
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -112,7 +112,7 @@ fun SignUp(navigationController: NavHostController) {
 }
 
 @Composable
-fun Body(modifier: Modifier) {
+fun BodyEn(modifier: Modifier) {
     var email by remember {
         mutableStateOf("")
     }
@@ -123,23 +123,23 @@ fun Body(modifier: Modifier) {
         mutableStateOf(false)
     }
     Column(modifier = modifier) {
-        ImageLogo(Modifier.align(Alignment.CenterHorizontally))
+        ImageLogoEn(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
-        Email(email) {
+        EmailEn(email) {
             email = it
             isLoginEnable = enabledLogin(email, password)
         }
         Spacer(modifier = Modifier.size(8.dp))
-        Password(password) {
+        PasswordEn(password) {
             password = it
             isLoginEnable = enabledLoginEn(email, password)
         }
         Spacer(modifier = Modifier.size(8.dp))
-        ForgotPassword(Modifier.align(Alignment.End))
+        ForgotPasswordEn(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable)
+        LoginButtonEn(isLoginEnable)
         Spacer(modifier = Modifier.size(16.dp))
-        LoginDivider()
+        LoginDividerEn()
         Spacer(modifier = Modifier.size(36.dp))
 
     }
@@ -148,7 +148,7 @@ fun Body(modifier: Modifier) {
 
 
 @Composable
-fun LoginDivider() {
+fun LoginDividerEn() {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
 
         Divider(
@@ -175,7 +175,7 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginButton(LoginEnable: Boolean) {
+fun LoginButtonEn(LoginEnable: Boolean) {
     Button(
         onClick = {  },
         enabled = LoginEnable,
@@ -191,15 +191,15 @@ fun LoginButton(LoginEnable: Boolean) {
         Text(text = "Log in ")
     }
 }
-fun enabledLogin(email: String, password: String) =
+fun enabledLoginEn(email: String, password: String) =
     Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
 
 
 
 @Composable
-fun ForgotPassword(modifier: Modifier) {
+fun ForgotPasswordEn(modifier: Modifier) {
     Text(
-        text = "Has olvidado tu contraseña ?",
+        text = "Have you forgotten your password ?",
         fontSize = 10.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xff2268Da),
@@ -209,7 +209,7 @@ fun ForgotPassword(modifier: Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Password(password: String, onTextChanged: (String) -> Unit) {
+fun PasswordEn(password: String, onTextChanged: (String) -> Unit) {
     var passwordVisibility by remember {
         mutableStateOf(false)
     }
@@ -217,7 +217,7 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
         value = password, onValueChange = { onTextChanged(it) },
         modifier = Modifier
             .fillMaxWidth(),
-        label = { Text(text = "Contraseña", color = Color.Black, fontSize = 12.sp) },
+        label = { Text(text = "Password", color = Color.Black, fontSize = 12.sp) },
         maxLines = 1,
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
@@ -249,14 +249,14 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Email(email: String, onTextChanged: (String) -> Unit) {
+fun EmailEn(email: String, onTextChanged: (String) -> Unit) {
     OutlinedTextField(
         value = email, onValueChange = {
             onTextChanged(it)
         },
         modifier = Modifier
             .fillMaxWidth(),
-        label = { Text(text = "DNI - Correo electronico", color = Color.Black, fontSize = 12.sp) },
+        label = { Text(text = "DNI - Email", color = Color.Black, fontSize = 12.sp) },
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -273,15 +273,15 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 }
 
 @Composable
-fun ImageLogo(modifier: Modifier) {
+fun ImageLogoEn(modifier: Modifier) {
 
-    Image(painterResource(id = R.drawable.pngwing_com )  , contentDescription ="" ,
-        Modifier
-            .size(300.dp)
-            .padding(start = 80.dp))
+Image(painterResource(id = R.drawable.pngwing_com )  , contentDescription ="" ,
+    Modifier
+        .size(300.dp)
+        .padding(start = 80.dp))
     Column {
-        Text(text = "Bienvenido  de  nuevo !", fontSize = 30.sp)
-        Text(text = "Inicia sesiosesión para continuar",color = Color(0xF5979595), fontSize = 15.sp)
+        Text(text = "Welcome back !", fontSize = 30.sp)
+        Text(text = "Log in login to continue ",color = Color(0xF5979595), fontSize = 15.sp)
     }
 }
 

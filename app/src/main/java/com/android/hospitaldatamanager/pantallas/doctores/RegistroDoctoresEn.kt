@@ -1,4 +1,4 @@
-package com.android.hospitaldatamanager.pantallas.pacientes
+package com.android.hospitaldatamanager.pantallas.doctores
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -27,9 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
@@ -62,23 +60,21 @@ import com.android.hospitaldatamanager.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroPasientes (navigationController: NavHostController) {
-
-    var NombreCompleto by remember { mutableStateOf("") }
+fun RegistroDoctoresEn(navigationController: NavHostController) {
+    var nombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
-    var FechaDeNacimiento by remember { mutableStateOf("") }
-    var GeneroDeElPaciente by remember { mutableStateOf("") }
-    var fotoPaciente by remember { mutableStateOf<Uri?>(null) }
+    var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
+    var numeroDeIdentificacion by remember { mutableStateOf("") }
+    var especialidadMédica by remember { mutableStateOf("") }
+    var anosDeExperiencia by remember { mutableStateOf("") }
+    var horariosDeDisponibilidad by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+    var correoElectronico by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
-    var Diagnosticomedico by remember { mutableStateOf("") }
-    var Nombredeltratante by remember { mutableStateOf("") }
-    var Numeromedico by remember { mutableStateOf("") }
-    var MedicamentosActuales by remember { mutableStateOf("") }
+    var idiomas by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
         TopAppBar(
             { },
@@ -88,7 +84,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable { navigationController.navigate("Seleccion") }
+                        modifier = Modifier.clickable { navigationController.navigate("SeleccionEn")  }
                     )
                 }
             },
@@ -96,13 +92,13 @@ fun RegistroPasientes (navigationController: NavHostController) {
         Box() {
             Column {
                 Text(
-                    text = "Formulario de Datos",
+                    text = "Data Form",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    text = "Información Personal",
+                    text = "Personal information",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 16.sp
                 )
@@ -116,11 +112,11 @@ fun RegistroPasientes (navigationController: NavHostController) {
             Column {
 
 
-                //--- Nombre de el paciente ---
+                //--- Nombre de el Doctor ---
                 OutlinedTextField(
-                    value = NombreCompleto,
-                    onValueChange = { NombreCompleto = it },
-                    label = { Text("Nombre completo", color = Color.Black, fontSize = 14.sp) },
+                    value = nombreCompleto,
+                    onValueChange = { nombreCompleto = it },
+                    label = { Text("Full name", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,7 +140,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.dni),
-                            contentDescription = "Nie",
+                            contentDescription = "Dni-Nie",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -155,46 +151,14 @@ fun RegistroPasientes (navigationController: NavHostController) {
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- fecha de nacimientode el paciente ---
-                OutlinedTextField(
-                    value = FechaDeNacimiento,
-                    onValueChange = { FechaDeNacimiento = it },
-                    label = { Text("Fecha de nacimiento", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.DateRange, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA),
-                        unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Género de el paciente ---
-                OutlinedTextField(
-                    value = GeneroDeElPaciente, onValueChange = { GeneroDeElPaciente = it },
-                    label = { Text("Género", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.gender_fluid),
-                            contentDescription = "Gender",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp), maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Foto de  el paciente ---
+
+                //--- Foto de  el Doctor ---
                 val context = LocalContext.current
                 val bitmap = remember { mutableStateOf<Bitmap?>(null) }
 
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-                        fotoPaciente = uri
+                        fotoDoctor = uri
                     }
 
 
@@ -219,7 +183,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                                 .size(70.dp)
                                 .padding(5.dp)
                         ) {
-                            fotoPaciente?.let {
+                            fotoDoctor?.let {
                                 if (Build.VERSION.SDK_INT < 30) {
                                     bitmap.value = MediaStore.Images
                                         .Media.getBitmap(context.contentResolver, it)
@@ -241,7 +205,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
                             }
                         }
                         Text(
-                            text = "Sub tu fotografía",
+                            text = "Submit your photo",
                             modifier = Modifier.padding(22.dp),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.ExtraBold
@@ -258,91 +222,28 @@ fun RegistroPasientes (navigationController: NavHostController) {
                             shape = RoundedCornerShape(10.dp),
                         ) {
                             Text(
-                                text = "Seleccionar",
+                                text = "Select",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
                 }
-                //--- Direccíon de  el paciente ---
-                OutlinedTextField(
-                    value = direccion,
-                    onValueChange = { direccion = it },
-                    label = { Text("Direccíon", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.LocationOn, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA),
-                        unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Número de telfono de  el paciente ---
-                OutlinedTextField(
-                    value = numeroDeTelefono,
-                    onValueChange = { numeroDeTelefono = it },
-                    label = { Text("Número de teléfono", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA),
-                        unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Correro electronico de  el paciente ---
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Correo electrónico", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA),
-                        unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Contraseña ---
-                OutlinedTextField(
-                    value = contrasena,
-                    onValueChange = { contrasena = it },
-                    label = { Text("Contraseña", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA),
-                        unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Información Médical ---
 
-                Text(
-                    text = "Información Médical",
-                    modifier = Modifier.padding(start = 10.dp, top = 14.dp),
-                    fontSize = 16.sp
-                )
-
-                //--- Información Médical ---
-
-                //--- Diagnóstico médico ---
+                //--- Número de Identificación Médica ---
                 OutlinedTextField(
-                    value = Diagnosticomedico, onValueChange = { Diagnosticomedico = it },
-                    label = { Text("Diagnóstico médico", color = Color.Black, fontSize = 14.sp) },
+                    value = numeroDeIdentificacion, onValueChange = { numeroDeIdentificacion = it },
+                    label = {
+                        Text(
+                            "Medical Identification Number",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
                     leadingIcon = {
                         Image(
-                            painter = painterResource(id = R.drawable.stethoscope),
-                            contentDescription = "Diagnóstico",
+                            painter = painterResource(id = R.drawable.id_card),
+                            contentDescription = "Medical Identification Number",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -353,72 +254,171 @@ fun RegistroPasientes (navigationController: NavHostController) {
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- Nombre del  tratante ---
+                //--- Especialidad médica ---
                 OutlinedTextField(
-                    value = Nombredeltratante, onValueChange = { Nombredeltratante = it },
-                    label = { Text("Nombre del  tratante", color = Color.Black, fontSize = 14.sp) },
+                    value = especialidadMédica, onValueChange = { especialidadMédica = it },
+                    label = { Text("Medical speciality", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
-                            painter = painterResource(id = R.drawable.doctor),
-                            contentDescription = "Nombre del  tratante",
+                            painter = painterResource(id = R.drawable.caduceus),
+                            contentDescription = "Medical speciality",
                             modifier = Modifier.size(20.dp)
                         )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(5.dp), maxLines = 1,
+                        .padding(8.dp), maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- Número de teléfono del médico tratante ---
+
+                //--- Anos De Experiencia ---
                 OutlinedTextField(
-                    value = Numeromedico,
-                    onValueChange = { Numeromedico = it },
-                    label = { Text("Número de teléfono del médico tratante", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
+                    value = anosDeExperiencia, onValueChange = { anosDeExperiencia = it },
+                    label = { Text("Years of experience", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.experience),
+                            contentDescription = "Years of experience",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+
+                //--- Idiomas ---
+
+                OutlinedTextField(
+                    value = idiomas, onValueChange = { idiomas = it },
+                    label = { Text("Languages", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.language),
+                            contentDescription = "Languages",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Horarios De Disponibilidad ---
+                OutlinedTextField(
+                    value = horariosDeDisponibilidad,
+                    onValueChange = { horariosDeDisponibilidad = it },
+                    label = {
+                        Text(
+                            "Availability Hours",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.clock),
+                            contentDescription = "Availability Hours",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+
+                OutlinedTextField(
+                    value = direccion,
+                    onValueChange = { direccion = it },
+                    label = { Text("Address", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- Medicamentos actuales (nombre, dosis, frecuencia): ---
+
+                //--- Número de teléfono ---
                 OutlinedTextField(
-                    value = MedicamentosActuales, onValueChange = { MedicamentosActuales = it },
-                    label = { Text("Medicamentos actuale", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.pill),
-                            contentDescription = "Medicamentos actuale",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
+                    value = numeroDeTelefono,
+                    onValueChange = { numeroDeTelefono = it },
+                    label = { Text("Phone number", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
-                     maxLines = 1,
+                        .padding(10.dp),
+                    maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                        focusedBorderColor = Color(0xCE2268DA),
+                        unfocusedBorderColor = Color.Black,
                     )
                 )
+                //--- Correo electrónico ---
+                OutlinedTextField(
+                    value = correoElectronico,
+                    onValueChange = { correoElectronico = it },
+                    label = { Text("Email", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA),
+                        unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- contraseña ---
+                        OutlinedTextField(
+                            value = contrasena,
+                            onValueChange = { contrasena = it },
+                            label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
+                            leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            maxLines = 1,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedBorderColor = Color(0xCE2268DA),
+                                unfocusedBorderColor = Color.Black,
+                            )
+                        )
+
+
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp),
                     horizontalArrangement = Arrangement.Center
-                ){
-                Button(onClick = { /*TODO*/ },modifier = Modifier.width(180.dp).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xff2268Da),
-                        contentColor = Color.White,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
+                ) {
+                    Button(
+                        onClick = { /*TODO*/ }, modifier = Modifier
+                            .width(180.dp)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xff2268Da),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
                     ) {
-                    Text(text = "Registrar" , fontSize = 14.sp , fontWeight = FontWeight.Bold)
+                        Text(text = "Register", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
             }
 
 

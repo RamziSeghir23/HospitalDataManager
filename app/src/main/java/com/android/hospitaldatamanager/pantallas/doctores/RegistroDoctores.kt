@@ -9,8 +9,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,9 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
@@ -57,11 +55,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.android.hospitaldatamanager.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroDoctores() {
+fun RegistroDoctores(navigationController: NavHostController) {
     var nombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
@@ -84,7 +83,8 @@ fun RegistroDoctores() {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF000000)
+                        tint = Color(0xFF000000),
+                        modifier = Modifier.clickable { navigationController.navigate("Seleccion") }
                     )
                 }
             },
@@ -140,7 +140,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.dni),
-                            contentDescription = "Gender",
+                            contentDescription = "Dni - Nie",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -243,7 +243,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.id_card),
-                            contentDescription = "Gender",
+                            contentDescription = "Número de Identificación Médica",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -261,7 +261,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.caduceus),
-                            contentDescription = "Gender",
+                            contentDescription = "Especialidad médica",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -280,7 +280,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.experience),
-                            contentDescription = "Gender",
+                            contentDescription = "Años De Experiencia",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -300,7 +300,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.language),
-                            contentDescription = "Gender",
+                            contentDescription = "Idiomas",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -325,7 +325,7 @@ fun RegistroDoctores() {
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.clock),
-                            contentDescription = "Gender",
+                            contentDescription = "Horarios De Disponibilidad",
                             modifier = Modifier.size(20.dp)
                         )
                     },
