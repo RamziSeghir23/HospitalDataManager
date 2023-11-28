@@ -75,8 +75,8 @@ fun RegistroPasientes() {
     var Numeromedico by remember { mutableStateOf("") }
     var MedicamentosActuales by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.verticalScroll(rememberScrollState()))
-    {
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+
         TopAppBar(
             { },
             navigationIcon = {
