@@ -17,9 +17,7 @@ class MainActivity : ComponentActivity() {
             HospitalDataManagerTheme {
 
              // AppNavigation()
-                mainPaciente()
-
-            }
+mainPaciente()            }
         }
     }
 }
