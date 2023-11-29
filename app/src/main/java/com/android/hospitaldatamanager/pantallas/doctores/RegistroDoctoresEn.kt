@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.android.hospitaldatamanager.R
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -406,8 +407,71 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
                         .padding(top = 15.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
+
+                    val db = FirebaseFirestore.getInstance()
+                    val coleccion = "Doctores"
+                    val dato = hashMapOf(
+
+                        "nombreCompleto" to nombreCompleto.toString(),
+                        "dni" to dni.toString(),
+                        "fotoDoctor" to fotoDoctor.toString(),
+                        "numeroDeIdentificacion" to numeroDeIdentificacion.toString(),
+                        "especialidadMédica" to especialidadMédica.toString(),
+                        "anosDeExperiencia" to anosDeExperiencia.toString(),
+
+
+                        "horariosDeDisponibilidad" to horariosDeDisponibilidad.toString(),
+                        "direccion" to direccion.toString(),
+
+                        "numeroDeTelefono" to numeroDeTelefono.toString(),
+                        "correoElectronico" to correoElectronico.toString(),
+                        "contrasena" to contrasena.toString(),
+                        "idiomas" to idiomas.toString(),
+
+
+                        )
+                    var mensajeConfirmacion by remember { mutableStateOf("") }
+
                     Button(
-                        onClick = { /*TODO*/ }, modifier = Modifier
+                        onClick = {
+
+                            db.collection(coleccion)
+                                .document(correoElectronico)
+                                .set(dato)
+                                .addOnSuccessListener {
+                                    mensajeConfirmacion = "Datos guardados correctamente"
+                                    nombreCompleto = ""
+                                    dni = ""
+                                    //   fotoDoctor = ""
+                                    numeroDeIdentificacion = ""
+                                    especialidadMédica = ""
+                                    anosDeExperiencia = ""
+                                    horariosDeDisponibilidad = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    correoElectronico = ""
+                                    contrasena = ""
+                                    idiomas = ""
+                                }
+                                .addOnFailureListener {
+                                    mensajeConfirmacion = "No se han podido guardar los datos. Intentelo de nuevo."
+                                    nombreCompleto = ""
+                                    dni = ""
+                                    //   fotoDoctor = ""
+                                    numeroDeIdentificacion = ""
+                                    especialidadMédica = ""
+                                    anosDeExperiencia = ""
+                                    horariosDeDisponibilidad = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    correoElectronico = ""
+                                    contrasena = ""
+                                    idiomas = ""
+                                }
+
+                        }
+
+                    , modifier = Modifier
                             .width(180.dp)
                             .height(50.dp),
                         colors = ButtonDefaults.buttonColors(

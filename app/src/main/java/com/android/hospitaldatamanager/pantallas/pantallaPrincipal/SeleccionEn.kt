@@ -60,7 +60,7 @@ fun SeleccionEn(navigationController: NavHostController) {
 
         )
         Box(modifier = Modifier.align(alignment = Alignment.CenterHorizontally)){
-            Text(text = " Are ?", fontSize = 26.sp, fontWeight = FontWeight.ExtraBold  )
+            Text(text = "Are you.. ?", fontSize = 26.sp, fontWeight = FontWeight.ExtraBold  )
         }
 
         Spacer(modifier = Modifier.height(40.dp))

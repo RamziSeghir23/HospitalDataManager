@@ -59,10 +59,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.android.hospitaldatamanager.R
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroPasientes (navigationController: NavHostController) {
+fun RegistroPasientes(navigationController: NavHostController) {
 
     var NombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
@@ -78,7 +79,7 @@ fun RegistroPasientes (navigationController: NavHostController) {
     var Numeromedico by remember { mutableStateOf("") }
     var MedicamentosActuales by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
         TopAppBar(
             { },
@@ -375,7 +376,13 @@ fun RegistroPasientes (navigationController: NavHostController) {
                 OutlinedTextField(
                     value = Numeromedico,
                     onValueChange = { Numeromedico = it },
-                    label = { Text("Número de teléfono del médico tratante", color = Color.Black, fontSize = 14.sp) },
+                    label = {
+                        Text(
+                            "Número de teléfono del médico tratante",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -400,25 +407,102 @@ fun RegistroPasientes (navigationController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                     maxLines = 1,
+                    maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp),
                     horizontalArrangement = Arrangement.Center
-                ){
-                Button(onClick = { /*TODO*/ },modifier = Modifier.width(180.dp).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xff2268Da),
-                        contentColor = Color.White,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
+                ) {
+
+                    val db = FirebaseFirestore.getInstance()
+                    val coleccion = "Pacientes"
+                    val dato = hashMapOf(
+
+                        "NombreCompleto" to NombreCompleto.toString(),
+                        "dni" to dni.toString(),
+                        "FechaDeNacimiento" to FechaDeNacimiento.toString(),
+                        "GeneroDeElPaciente" to GeneroDeElPaciente.toString(),
+
+                        "fotoPaciente" to fotoPaciente.toString(),
+
+                        "direccion" to direccion.toString(),
+                        "numeroDeTelefono" to numeroDeTelefono.toString(),
+                        "email" to email.toString(),
+                        "contrasena" to contrasena.toString(),
+                        "Diagnosticomedico" to Diagnosticomedico.toString(),
+                        "Nombredeltratante" to Nombredeltratante.toString(),
+                        "Numeromedico" to Numeromedico.toString(),
+                        "MedicamentosActuales" to MedicamentosActuales.toString(),
+
+                        )
+
+                    var mensajeConfirmacion by remember { mutableStateOf("") }
+
+
+
+
+
+                    Button(
+                        onClick = {
+                            db.collection(coleccion)
+                                .document(email)
+                                .set(dato)
+                                .addOnSuccessListener {
+                                    mensajeConfirmacion = "Datos guardados correctamente"
+
+                                    NombreCompleto = ""
+                                    dni = ""
+                                    //   fotoPaciente = ""
+                                    FechaDeNacimiento = ""
+                                    GeneroDeElPaciente = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    email = ""
+                                    contrasena = ""
+                                    Diagnosticomedico = ""
+                                    Nombredeltratante = ""
+                                    Numeromedico = ""
+                                    MedicamentosActuales = ""
+
+
+                                }
+                                .addOnFailureListener {
+                                    mensajeConfirmacion =
+                                        "No se han podido guardar los datos. Intentelo de nuevo."
+                                    NombreCompleto = ""
+                                    dni = ""
+                                    //   fotoPaciente = ""
+                                    FechaDeNacimiento = ""
+                                    GeneroDeElPaciente = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    email = ""
+                                    contrasena = ""
+                                    Diagnosticomedico = ""
+                                    Nombredeltratante = ""
+                                    Numeromedico = ""
+                                    MedicamentosActuales = ""
+
+
+                                }
+                        },
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xff2268Da),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
                     ) {
-                    Text(text = "Registrar" , fontSize = 14.sp , fontWeight = FontWeight.Bold)
+                        Text(text = "Registrar", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
             }
 
 

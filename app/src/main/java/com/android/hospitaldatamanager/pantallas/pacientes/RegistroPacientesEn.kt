@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.android.hospitaldatamanager.R
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -408,7 +409,79 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                     modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
                     horizontalArrangement = Arrangement.Center
                 ){
-                Button(onClick = { /*TODO*/ },modifier = Modifier.width(180.dp).height(50.dp),
+
+                    val db = FirebaseFirestore.getInstance()
+                    val coleccion = "Pacientes"
+                    val dato = hashMapOf(
+
+                        "NombreCompleto" to NombreCompleto.toString(),
+                        "dni" to dni.toString(),
+                        "FechaDeNacimiento" to FechaDeNacimiento.toString(),
+                        "GeneroDeElPaciente" to GeneroDeElPaciente.toString(),
+
+                        "fotoPaciente" to fotoPaciente.toString(),
+
+                        "direccion" to direccion.toString(),
+                        "numeroDeTelefono" to numeroDeTelefono.toString(),
+                        "email" to email.toString(),
+                        "contrasena" to contrasena.toString(),
+                        "Diagnosticomedico" to Diagnosticomedico.toString(),
+                        "Nombredeltratante" to Nombredeltratante.toString(),
+                        "Numeromedico" to Numeromedico.toString(),
+                        "MedicamentosActuales" to MedicamentosActuales.toString(),
+
+                        )
+
+                    var mensajeConfirmacion by remember { mutableStateOf("") }
+
+
+
+
+
+                    Button(
+                        onClick = {
+                            db.collection(coleccion)
+                                .document(email)
+                                .set(dato)
+                                .addOnSuccessListener {
+                                    mensajeConfirmacion = "Datos guardados correctamente"
+
+                                    NombreCompleto = ""
+                                    dni = ""
+                                    //   fotoPaciente = ""
+                                    FechaDeNacimiento = ""
+                                    GeneroDeElPaciente = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    email = ""
+                                    contrasena = ""
+                                    Diagnosticomedico = ""
+                                    Nombredeltratante = ""
+                                    Numeromedico = ""
+                                    MedicamentosActuales = ""
+
+
+                                }
+                                .addOnFailureListener {
+                                    mensajeConfirmacion ="No se han podido guardar los datos. Intentelo de nuevo."
+                                    NombreCompleto = ""
+                                    dni = ""
+                                    //   fotoPaciente = ""
+                                    FechaDeNacimiento = ""
+                                    GeneroDeElPaciente = ""
+                                    direccion = ""
+                                    numeroDeTelefono = ""
+                                    email = ""
+                                    contrasena = ""
+                                    Diagnosticomedico = ""
+                                    Nombredeltratante = ""
+                                    Numeromedico = ""
+                                    MedicamentosActuales = ""
+
+
+                                }
+                        }
+                        ,modifier = Modifier.width(180.dp).height(50.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xff2268Da),
                         contentColor = Color.White,
