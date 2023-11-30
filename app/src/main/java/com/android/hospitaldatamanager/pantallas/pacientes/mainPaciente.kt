@@ -1,16 +1,13 @@
 package com.android.hospitaldatamanager.pantallas.pacientes
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,20 +15,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -40,36 +33,30 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.android.hospitaldatamanager.R
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun mainPaciente() {
+fun mainPaciente(navigationController: NavHostController) {
 
 
     Scaffold(
@@ -92,7 +79,7 @@ fun mainPaciente() {
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = "Back",
                                 tint = Color(0xFF000000),
-                                modifier = Modifier.clickable { }
+                                modifier = Modifier.clickable { navigationController.navigate("iniciar_sesion") }
                             )
                         }
                     }
@@ -103,7 +90,7 @@ fun mainPaciente() {
                                     .size(65.dp)
 
                             ) {
-                                Image(
+                            /*    Image(
                                     painterResource(id = R.drawable.abuelo),
                                     contentDescription = null,
                                     contentScale = ContentScale.Crop,
@@ -111,6 +98,8 @@ fun mainPaciente() {
                                         .fillMaxSize()
                                         .clip(RoundedCornerShape(percent = 60))
                                 )
+
+                             */
                             }
                             Box(
                                 modifier = Modifier
@@ -118,7 +107,7 @@ fun mainPaciente() {
                                     .fillMaxSize()
                             ) {
                                 Text(
-                                    text = "Hola , Alberto Sánchez",
+                                    text = "Bienvendo a tu cuenta",
                                     fontWeight = FontWeight.ExtraBold
                                 )
                             }
@@ -364,7 +353,7 @@ fun mainPaciente() {
                                 ) {
                                     Column {
                                         Text(
-                                            text ="Dr. Javier Pérez",
+                                            text = "Dr. Javier Pérez",
                                             fontWeight = FontWeight.Bold
                                         )
                                         Text(

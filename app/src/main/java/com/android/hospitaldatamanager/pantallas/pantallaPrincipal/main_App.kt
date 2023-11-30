@@ -41,17 +41,21 @@ fun main_App(navigationController: NavHostController) {
 
 
             ) {
-            Column (modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(10.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.es),
                     contentDescription = "Horarios De Disponibilidad",
-                    modifier = Modifier.size(50.dp).clickable {navigationController.navigate("main_App")  }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable { navigationController.navigate("main_App") }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.en),
                     contentDescription = "Horarios De Disponibilidad",
-                    modifier = Modifier.size(46.dp).clickable { navigationController.navigate("main_AppEn") }
+                    modifier = Modifier
+                        .size(46.dp)
+                        .clickable { navigationController.navigate("main_AppEn") }
                 )
             }
 

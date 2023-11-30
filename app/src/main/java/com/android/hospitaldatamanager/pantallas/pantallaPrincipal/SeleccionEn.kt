@@ -42,7 +42,7 @@ fun SeleccionEn(navigationController: NavHostController) {
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = Color(0xFF000000),
-                    modifier = Modifier.clickable { navigationController.navigate("iniciar_sesionEn")}
+                    modifier = Modifier.clickable { navigationController.navigate("iniciar_sesionEn") }
 
                 )
             }
@@ -54,19 +54,18 @@ fun SeleccionEn(navigationController: NavHostController) {
             Modifier
                 .align(alignment = Alignment.CenterHorizontally)
                 .size(300.dp)
-                .padding( top = 40.dp),
+                .padding(top = 40.dp),
 
 
-
-        )
-        Box(modifier = Modifier.align(alignment = Alignment.CenterHorizontally)){
-            Text(text = "Are you.. ?", fontSize = 26.sp, fontWeight = FontWeight.ExtraBold  )
+            )
+        Box(modifier = Modifier.align(alignment = Alignment.CenterHorizontally)) {
+            Text(text = "Are you.. ?", fontSize = 26.sp, fontWeight = FontWeight.ExtraBold)
         }
 
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = { navigationController.navigate("RegistroPacientesEn")},
+            onClick = { navigationController.navigate("RegistroPacientesEn") },
             modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally)
                 .width(300.dp)
@@ -81,7 +80,7 @@ fun SeleccionEn(navigationController: NavHostController) {
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
-            onClick = {navigationController.navigate("RegistroDoctoresEn") },
+            onClick = { navigationController.navigate("RegistroDoctoresEn") },
             modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally)
                 .width(300.dp)

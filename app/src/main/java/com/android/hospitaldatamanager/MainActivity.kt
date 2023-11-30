@@ -15,7 +15,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             HospitalDataManagerTheme {
 
-                AppNavigation()
+              AppNavigation()
+
             }
         }
 

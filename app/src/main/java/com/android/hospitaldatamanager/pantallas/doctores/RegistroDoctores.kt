@@ -56,12 +56,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.hospitaldatamanager.Login.LoginScreenViewModel
 import com.android.hospitaldatamanager.R
 import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroDoctores(navigationController: NavHostController) {
+fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var nombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
@@ -71,8 +72,8 @@ fun RegistroDoctores(navigationController: NavHostController) {
     var horariosDeDisponibilidad by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
-    var correoElectronico by remember { mutableStateOf("") }
-    var contrasena by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var idiomas by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -371,8 +372,8 @@ fun RegistroDoctores(navigationController: NavHostController) {
                 )
                 //--- Correo electrónico ---
                 OutlinedTextField(
-                    value = correoElectronico,
-                    onValueChange = { correoElectronico = it },
+                    value = email,
+                    onValueChange = { email = it },
                     label = { Text("Correo electrónico", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     modifier = Modifier
@@ -386,13 +387,13 @@ fun RegistroDoctores(navigationController: NavHostController) {
                 )
                 //--- contraseña ---
                 OutlinedTextField(
-                    value = contrasena,
-                    onValueChange = { contrasena = it },
-                    label = { Text("Contraseña", color = Color.Black, fontSize = 14.sp) },
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("contraseña", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
@@ -414,7 +415,7 @@ fun RegistroDoctores(navigationController: NavHostController) {
 
                         "nombreCompleto" to nombreCompleto.toString(),
                         "dni" to dni.toString(),
-                       "fotoDoctor" to fotoDoctor.toString(),
+                        "fotoDoctor" to fotoDoctor.toString(),
                         "numeroDeIdentificacion" to numeroDeIdentificacion.toString(),
                         "especialidadMédica" to especialidadMédica.toString(),
                         "anosDeExperiencia" to anosDeExperiencia.toString(),
@@ -424,8 +425,8 @@ fun RegistroDoctores(navigationController: NavHostController) {
                         "direccion" to direccion.toString(),
 
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
-                        "correoElectronico" to correoElectronico.toString(),
-                        "contrasena" to contrasena.toString(),
+                        "correoElectronico" to email.toString(),
+                        "contrasena" to password.toString(),
                         "idiomas" to idiomas.toString(),
 
 
@@ -434,45 +435,51 @@ fun RegistroDoctores(navigationController: NavHostController) {
 
                     Button(
                         onClick = {
-
-                            db.collection(coleccion)
-                                .document(correoElectronico)
-                                .set(dato)
-                                .addOnSuccessListener {
-                                    mensajeConfirmacion = "Datos guardados correctamente"
-                                    nombreCompleto = ""
-                                    dni = ""
-                                 //   fotoDoctor = ""
-                                    numeroDeIdentificacion = ""
-                                    especialidadMédica = ""
-                                    anosDeExperiencia = ""
-                                    horariosDeDisponibilidad = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    correoElectronico = ""
-                                    contrasena = ""
-                                    idiomas = ""
-
-
-
+                            viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
+                                if (success) {
+                                    db.collection(coleccion)
+                                        .document(email)
+                                        .set(dato)
+                                        .addOnSuccessListener {
+                                            mensajeConfirmacion = "Datos guardados correctamente"
+                                            nombreCompleto = ""
+                                            dni = ""
+                                            //   fotoDoctor = ""
+                                            numeroDeIdentificacion = ""
+                                            especialidadMédica = ""
+                                            anosDeExperiencia = ""
+                                            horariosDeDisponibilidad = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            idiomas = ""
 
 
+                                        }
+                                        .addOnFailureListener {
+                                            mensajeConfirmacion =
+                                                "No se han podido guardar los datos. Intentelo de nuevo."
+                                            nombreCompleto = ""
+                                            dni = ""
+                                            //   fotoDoctor = ""
+                                            numeroDeIdentificacion = ""
+                                            especialidadMédica = ""
+                                            anosDeExperiencia = ""
+                                            horariosDeDisponibilidad = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            idiomas = ""
+                                        }
+                                } else {
+                                    // Error al crear el usuario
+                                    // Muestra un mensaje de error al usuario
+                                    println("Error al crear usuario: $errorMessage")
                                 }
-                                .addOnFailureListener {
-                                    mensajeConfirmacion = "No se han podido guardar los datos. Intentelo de nuevo."
-                                    nombreCompleto = ""
-                                    dni = ""
-                                    //   fotoDoctor = ""
-                                    numeroDeIdentificacion = ""
-                                    especialidadMédica = ""
-                                    anosDeExperiencia = ""
-                                    horariosDeDisponibilidad = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    correoElectronico = ""
-                                    contrasena = ""
-                                    idiomas = ""
-                                }
+                            }
+
 
                         },
                         modifier = Modifier

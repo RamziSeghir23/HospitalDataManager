@@ -58,12 +58,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.hospitaldatamanager.Login.LoginScreenViewModel
 import com.android.hospitaldatamanager.R
 import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroPasientesEn(navigationController: NavHostController) {
+fun RegistroPasientesEn(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var NombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var FechaDeNacimiento by remember { mutableStateOf("") }
@@ -72,13 +73,13 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var contrasena by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var Diagnosticomedico by remember { mutableStateOf("") }
     var Nombredeltratante by remember { mutableStateOf("") }
     var Numeromedico by remember { mutableStateOf("") }
     var MedicamentosActuales by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
         TopAppBar(
             { },
@@ -88,7 +89,7 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable {  navigationController.navigate("SeleccionEn") }
+                        modifier = Modifier.clickable { navigationController.navigate("SeleccionEn") }
                     )
                 }
             },
@@ -312,8 +313,8 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                 )
                 //--- Contraseña ---
                 OutlinedTextField(
-                    value = contrasena,
-                    onValueChange = { contrasena = it },
+                    value = password,
+                    onValueChange = { password = it },
                     label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                     modifier = Modifier
@@ -356,7 +357,13 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                 //--- Nombre del  tratante ---
                 OutlinedTextField(
                     value = Nombredeltratante, onValueChange = { Nombredeltratante = it },
-                    label = { Text("Name of the treating doctor", color = Color.Black, fontSize = 14.sp) },
+                    label = {
+                        Text(
+                            "Name of the treating doctor",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.doctor),
@@ -375,7 +382,13 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                 OutlinedTextField(
                     value = Numeromedico,
                     onValueChange = { Numeromedico = it },
-                    label = { Text("Tel number of the treating doctor", color = Color.Black, fontSize = 14.sp) },
+                    label = {
+                        Text(
+                            "Tel number of the treating doctor",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -400,15 +413,17 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                     maxLines = 1,
+                    maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp),
                     horizontalArrangement = Arrangement.Center
-                ){
+                ) {
 
                     val db = FirebaseFirestore.getInstance()
                     val coleccion = "Pacientes"
@@ -424,7 +439,7 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
                         "direccion" to direccion.toString(),
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
                         "email" to email.toString(),
-                        "contrasena" to contrasena.toString(),
+                        "password" to password.toString(),
                         "Diagnosticomedico" to Diagnosticomedico.toString(),
                         "Nombredeltratante" to Nombredeltratante.toString(),
                         "Numeromedico" to Numeromedico.toString(),
@@ -440,57 +455,70 @@ fun RegistroPasientesEn(navigationController: NavHostController) {
 
                     Button(
                         onClick = {
-                            db.collection(coleccion)
-                                .document(email)
-                                .set(dato)
-                                .addOnSuccessListener {
-                                    mensajeConfirmacion = "Datos guardados correctamente"
+                            viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
+                                if (success) {
+                                    navigationController.navigate("iniciar_sesion")
+                                    db.collection(coleccion)
+                                        .document(email)
+                                        .set(dato)
+                                        .addOnSuccessListener {
+                                            mensajeConfirmacion = "Datos guardados correctamente"
 
-                                    NombreCompleto = ""
-                                    dni = ""
-                                    //   fotoPaciente = ""
-                                    FechaDeNacimiento = ""
-                                    GeneroDeElPaciente = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    email = ""
-                                    contrasena = ""
-                                    Diagnosticomedico = ""
-                                    Nombredeltratante = ""
-                                    Numeromedico = ""
-                                    MedicamentosActuales = ""
+                                            NombreCompleto = ""
+                                            dni = ""
+                                            // fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
 
 
+                                        }
+                                        .addOnFailureListener {
+                                            mensajeConfirmacion =
+                                                "No se han podido guardar los datos. Intentelo de nuevo."
+                                            NombreCompleto = ""
+                                            dni = ""
+                                            //   fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
+
+
+                                        }
+                                } else {
+                                    // Error al crear el usuario
+                                    // Muestra un mensaje de error al usuario
+                                    println("Error al crear usuario: $errorMessage")
                                 }
-                                .addOnFailureListener {
-                                    mensajeConfirmacion ="No se han podido guardar los datos. Intentelo de nuevo."
-                                    NombreCompleto = ""
-                                    dni = ""
-                                    //   fotoPaciente = ""
-                                    FechaDeNacimiento = ""
-                                    GeneroDeElPaciente = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    email = ""
-                                    contrasena = ""
-                                    Diagnosticomedico = ""
-                                    Nombredeltratante = ""
-                                    Numeromedico = ""
-                                    MedicamentosActuales = ""
+                            }
+                        },
 
-
-                                }
-                        }
-                        ,modifier = Modifier.width(180.dp).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xff2268Da),
-                        contentColor = Color.White,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xff2268Da),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
                     ) {
-                    Text(text = "Register" , fontSize = 14.sp , fontWeight = FontWeight.Bold)
+                        Text(text = "Register", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
             }
 
 

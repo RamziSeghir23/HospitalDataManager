@@ -49,11 +49,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.hospitaldatamanager.Login.LoginScreenViewModel
 import com.android.hospitaldatamanager.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun iniciar_sesion(navigationController: NavHostController) {
+fun iniciar_sesion(
+    navigationController: NavHostController,
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     var email by remember {
         mutableStateOf("")
     }
@@ -66,7 +70,8 @@ fun iniciar_sesion(navigationController: NavHostController) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "Back",
-                tint = Color(0xFF000000), modifier = Modifier.clickable { navigationController.navigate("main_App") }
+                tint = Color(0xFF000000),
+                modifier = Modifier.clickable { navigationController.navigate("main_App") }
             )
         }
 
@@ -93,7 +98,7 @@ fun iniciar_sesion(navigationController: NavHostController) {
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
-                placeholder = { Text(text = "DNI - Correo electronico") },
+                placeholder = { Text(text = "Correo electronico") },
                 maxLines = 1,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -151,7 +156,11 @@ fun iniciar_sesion(navigationController: NavHostController) {
             Spacer(modifier = Modifier.size(15.dp))
 
             Button(
-                onClick = { },
+                onClick = {
+                    viewModel.signInWithEmailAndPassword(email,password){
+                        navigationController.navigate("mainPaciente")
+                    }
+                },
                 enabled = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -192,7 +201,7 @@ fun iniciar_sesion(navigationController: NavHostController) {
                         .weight(1f)
                 )
             }
-            Spacer(modifier = Modifier.size(100.dp))
+            Spacer(modifier = Modifier.size(80.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -204,7 +213,9 @@ fun iniciar_sesion(navigationController: NavHostController) {
                 )
                 Text(
                     text = "Registrar.",
-                    modifier = Modifier.padding(horizontal = 8.dp).clickable { navigationController.navigate("Seleccion") },
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .clickable { navigationController.navigate("Seleccion") },
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF4EA8E9)
@@ -212,8 +223,6 @@ fun iniciar_sesion(navigationController: NavHostController) {
 
 
             }
-
-
 
 
         }

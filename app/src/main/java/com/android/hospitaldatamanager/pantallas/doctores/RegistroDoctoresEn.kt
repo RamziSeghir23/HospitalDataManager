@@ -56,12 +56,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.hospitaldatamanager.Login.LoginScreenViewModel
 import com.android.hospitaldatamanager.R
 import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroDoctoresEn(navigationController: NavHostController) {
+fun RegistroDoctoresEn(navigationController: NavHostController ,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var nombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
@@ -71,8 +72,8 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
     var horariosDeDisponibilidad by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
-    var correoElectronico by remember { mutableStateOf("") }
-    var contrasena by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var idiomas by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -85,7 +86,7 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable { navigationController.navigate("SeleccionEn")  }
+                        modifier = Modifier.clickable { navigationController.navigate("SeleccionEn") }
                     )
                 }
             },
@@ -371,8 +372,8 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
                 )
                 //--- Correo electrónico ---
                 OutlinedTextField(
-                    value = correoElectronico,
-                    onValueChange = { correoElectronico = it },
+                    value = email,
+                    onValueChange = { email = it },
                     label = { Text("Email", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     modifier = Modifier
@@ -385,20 +386,20 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
                     )
                 )
                 //--- contraseña ---
-                        OutlinedTextField(
-                            value = contrasena,
-                            onValueChange = { contrasena = it },
-                            label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
-                            leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(10.dp),
-                            maxLines = 1,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color(0xCE2268DA),
-                                unfocusedBorderColor = Color.Black,
-                            )
-                        )
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA),
+                        unfocusedBorderColor = Color.Black,
+                    )
+                )
 
 
                 Row(
@@ -424,8 +425,8 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
                         "direccion" to direccion.toString(),
 
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
-                        "correoElectronico" to correoElectronico.toString(),
-                        "contrasena" to contrasena.toString(),
+                        "email" to email.toString(),
+                        "password" to password.toString(),
                         "idiomas" to idiomas.toString(),
 
 
@@ -434,44 +435,53 @@ fun RegistroDoctoresEn(navigationController: NavHostController) {
 
                     Button(
                         onClick = {
+                            viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
+                                if (success) {
+                                    db.collection(coleccion)
+                                        .document(email)
+                                        .set(dato)
+                                        .addOnSuccessListener {
+                                            mensajeConfirmacion = "Datos guardados correctamente"
+                                            nombreCompleto = ""
+                                            dni = ""
+                                            //   fotoDoctor = ""
+                                            numeroDeIdentificacion = ""
+                                            especialidadMédica = ""
+                                            anosDeExperiencia = ""
+                                            horariosDeDisponibilidad = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            idiomas = ""
 
-                            db.collection(coleccion)
-                                .document(correoElectronico)
-                                .set(dato)
-                                .addOnSuccessListener {
-                                    mensajeConfirmacion = "Datos guardados correctamente"
-                                    nombreCompleto = ""
-                                    dni = ""
-                                    //   fotoDoctor = ""
-                                    numeroDeIdentificacion = ""
-                                    especialidadMédica = ""
-                                    anosDeExperiencia = ""
-                                    horariosDeDisponibilidad = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    correoElectronico = ""
-                                    contrasena = ""
-                                    idiomas = ""
+
+                                        }
+                                        .addOnFailureListener {
+                                            mensajeConfirmacion =
+                                                "No se han podido guardar los datos. Intentelo de nuevo."
+                                            nombreCompleto = ""
+                                            dni = ""
+                                            //   fotoDoctor = ""
+                                            numeroDeIdentificacion = ""
+                                            especialidadMédica = ""
+                                            anosDeExperiencia = ""
+                                            horariosDeDisponibilidad = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            idiomas = ""
+                                        }
+                                } else {
+                                    // Error al crear el usuario
+                                    // Muestra un mensaje de error al usuario
+                                    println("Error al crear usuario: $errorMessage")
                                 }
-                                .addOnFailureListener {
-                                    mensajeConfirmacion = "No se han podido guardar los datos. Intentelo de nuevo."
-                                    nombreCompleto = ""
-                                    dni = ""
-                                    //   fotoDoctor = ""
-                                    numeroDeIdentificacion = ""
-                                    especialidadMédica = ""
-                                    anosDeExperiencia = ""
-                                    horariosDeDisponibilidad = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    correoElectronico = ""
-                                    contrasena = ""
-                                    idiomas = ""
-                                }
+                            }
 
-                        }
-
-                    , modifier = Modifier
+                        },
+                        modifier = Modifier
                             .width(180.dp)
                             .height(50.dp),
                         colors = ButtonDefaults.buttonColors(

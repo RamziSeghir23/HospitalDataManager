@@ -58,12 +58,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.hospitaldatamanager.Login.LoginScreenViewModel
 import com.android.hospitaldatamanager.R
 import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroPasientes(navigationController: NavHostController) {
+fun RegistroPasientes(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 
     var NombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
@@ -73,7 +74,7 @@ fun RegistroPasientes(navigationController: NavHostController) {
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var contrasena by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var Diagnosticomedico by remember { mutableStateOf("") }
     var Nombredeltratante by remember { mutableStateOf("") }
     var Numeromedico by remember { mutableStateOf("") }
@@ -313,9 +314,9 @@ fun RegistroPasientes(navigationController: NavHostController) {
                 )
                 //--- Contraseña ---
                 OutlinedTextField(
-                    value = contrasena,
-                    onValueChange = { contrasena = it },
-                    label = { Text("Contraseña", color = Color.Black, fontSize = 14.sp) },
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("contraseña", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -433,7 +434,7 @@ fun RegistroPasientes(navigationController: NavHostController) {
                         "direccion" to direccion.toString(),
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
                         "email" to email.toString(),
-                        "contrasena" to contrasena.toString(),
+                        "password" to password.toString(),
                         "Diagnosticomedico" to Diagnosticomedico.toString(),
                         "Nombredeltratante" to Nombredeltratante.toString(),
                         "Numeromedico" to Numeromedico.toString(),
@@ -449,48 +450,59 @@ fun RegistroPasientes(navigationController: NavHostController) {
 
                     Button(
                         onClick = {
-                            db.collection(coleccion)
-                                .document(email)
-                                .set(dato)
-                                .addOnSuccessListener {
-                                    mensajeConfirmacion = "Datos guardados correctamente"
+                            viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
+                                if (success) {
+                                    navigationController.navigate("iniciar_sesion")
+                                    db.collection(coleccion)
+                                        .document(email)
+                                        .set(dato)
+                                        .addOnSuccessListener {
+                                            mensajeConfirmacion = "Datos guardados correctamente"
 
-                                    NombreCompleto = ""
-                                    dni = ""
-                                    //   fotoPaciente = ""
-                                    FechaDeNacimiento = ""
-                                    GeneroDeElPaciente = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    email = ""
-                                    contrasena = ""
-                                    Diagnosticomedico = ""
-                                    Nombredeltratante = ""
-                                    Numeromedico = ""
-                                    MedicamentosActuales = ""
+                                            NombreCompleto = ""
+                                            dni = ""
+                                            // fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
 
 
+                                        }
+                                        .addOnFailureListener {
+                                            mensajeConfirmacion =
+                                                "No se han podido guardar los datos. Intentelo de nuevo."
+                                            NombreCompleto = ""
+                                            dni = ""
+                                            //   fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
+                                            direccion = ""
+                                            numeroDeTelefono = ""
+                                            email = ""
+                                            password = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
+
+
+                                        }
+                                } else {
+                                    // Error al crear el usuario
+                                    // Muestra un mensaje de error al usuario
+                                    println("Error al crear usuario: $errorMessage")
                                 }
-                                .addOnFailureListener {
-                                    mensajeConfirmacion =
-                                        "No se han podido guardar los datos. Intentelo de nuevo."
-                                    NombreCompleto = ""
-                                    dni = ""
-                                    //   fotoPaciente = ""
-                                    FechaDeNacimiento = ""
-                                    GeneroDeElPaciente = ""
-                                    direccion = ""
-                                    numeroDeTelefono = ""
-                                    email = ""
-                                    contrasena = ""
-                                    Diagnosticomedico = ""
-                                    Nombredeltratante = ""
-                                    Numeromedico = ""
-                                    MedicamentosActuales = ""
-
-
-                                }
+                            }
                         },
+
+
                         modifier = Modifier
                             .width(180.dp)
                             .height(50.dp),
