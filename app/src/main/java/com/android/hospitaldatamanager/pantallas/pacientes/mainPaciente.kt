@@ -738,7 +738,7 @@ fun mainPaciente(navigationController: NavHostController) {
                             imageVector = Icons.Rounded.Person,
                             contentDescription = "Icono",
                             tint = Color.Black,
-                            modifier = Modifier.size(48.dp)
+                            modifier = Modifier.size(48.dp).clickable { navigationController.navigate("MenuPrencipal") }
                         )
                     }
 

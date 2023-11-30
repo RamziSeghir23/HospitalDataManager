@@ -62,7 +62,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun ModificarDoctor(navigationController: NavHostController ,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var nombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
     var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
@@ -86,21 +86,16 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable { navigationController.navigate("Seleccion") }
+                        modifier = Modifier.clickable { navigationController.navigate("MenuPrencipal") }
                     )
                 }
             },
         )
         Box() {
             Column {
+
                 Text(
-                    text = "Formulario de Datos",
-                    modifier = Modifier.padding(start = 20.dp),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-                Text(
-                    text = "Información Personal",
+                    text = "Modificar",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 16.sp
                 )
@@ -118,7 +113,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 OutlinedTextField(
                     value = nombreCompleto,
                     onValueChange = { nombreCompleto = it },
-                    label = { Text("Nombre completo", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Full name", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -142,7 +137,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.dni),
-                            contentDescription = "Dni - Nie",
+                            contentDescription = "Dni-Nie",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -207,7 +202,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                             }
                         }
                         Text(
-                            text = "Sub tu fotografía",
+                            text = "Submit your photo",
                             modifier = Modifier.padding(22.dp),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.ExtraBold
@@ -224,7 +219,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                             shape = RoundedCornerShape(10.dp),
                         ) {
                             Text(
-                                text = "Seleccionar",
+                                text = "Select",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -237,7 +232,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     value = numeroDeIdentificacion, onValueChange = { numeroDeIdentificacion = it },
                     label = {
                         Text(
-                            "Número de Identificación Médica",
+                            "Medical Identification Number",
                             color = Color.Black,
                             fontSize = 14.sp
                         )
@@ -245,7 +240,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.id_card),
-                            contentDescription = "Número de Identificación Médica",
+                            contentDescription = "Medical Identification Number",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -259,11 +254,11 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 //--- Especialidad médica ---
                 OutlinedTextField(
                     value = especialidadMédica, onValueChange = { especialidadMédica = it },
-                    label = { Text("Especialidad médica", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Medical speciality", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.caduceus),
-                            contentDescription = "Especialidad médica",
+                            contentDescription = "Medical speciality",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -278,11 +273,11 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 //--- Anos De Experiencia ---
                 OutlinedTextField(
                     value = anosDeExperiencia, onValueChange = { anosDeExperiencia = it },
-                    label = { Text("Años De Experiencia", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Years of experience", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.experience),
-                            contentDescription = "Años De Experiencia",
+                            contentDescription = "Years of experience",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -298,11 +293,11 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
 
                 OutlinedTextField(
                     value = idiomas, onValueChange = { idiomas = it },
-                    label = { Text("Idiomas", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Languages", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.language),
-                            contentDescription = "Idiomas",
+                            contentDescription = "Languages",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -319,7 +314,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     onValueChange = { horariosDeDisponibilidad = it },
                     label = {
                         Text(
-                            "Horarios De Disponibilidad",
+                            "Availability Hours",
                             color = Color.Black,
                             fontSize = 14.sp
                         )
@@ -327,7 +322,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.clock),
-                            contentDescription = "Horarios De Disponibilidad",
+                            contentDescription = "Availability Hours",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -343,7 +338,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 OutlinedTextField(
                     value = direccion,
                     onValueChange = { direccion = it },
-                    label = { Text("Dirección", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Address", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -359,7 +354,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 OutlinedTextField(
                     value = numeroDeTelefono,
                     onValueChange = { numeroDeTelefono = it },
-                    label = { Text("Número de teléfono", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Phone number", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -374,7 +369,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Correo electrónico", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Email", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -389,11 +384,11 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("contraseña", color = Color.Black, fontSize = 14.sp) },
+                    label = { Text("Password", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
+                        .padding(10.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
@@ -425,8 +420,8 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         "direccion" to direccion.toString(),
 
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
-                        "correoElectronico" to email.toString(),
-                        "contrasena" to password.toString(),
+                        "email" to email.toString(),
+                        "password" to password.toString(),
                         "idiomas" to idiomas.toString(),
 
 
@@ -435,9 +430,6 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
 
                     Button(
                         onClick = {
-                            viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
-                                if (success) {
-                                    navigationController.navigate("iniciar_sesion")
 
                                     db.collection(coleccion)
                                         .document(email)
@@ -475,13 +467,8 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                                             password = ""
                                             idiomas = ""
                                         }
-                                } else {
-                                    // Error al crear el usuario
-                                    // Muestra un mensaje de error al usuario
-                                    println("Error al crear usuario: $errorMessage")
-                                }
-                            }
 
+                            navigationController.navigate("MenuDoctor")
 
                         },
                         modifier = Modifier
@@ -493,7 +480,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         ),
                         shape = RoundedCornerShape(10.dp),
                     ) {
-                        Text(text = "Registrar", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                        Text(text = "Register", fontSize = 14.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }

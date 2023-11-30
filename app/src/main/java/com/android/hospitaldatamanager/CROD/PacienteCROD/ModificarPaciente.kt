@@ -1,4 +1,4 @@
-package com.android.hospitaldatamanager.pantallas.doctores
+package com.android.hospitaldatamanager.CROD.PacienteCROD
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -27,7 +27,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Call
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
@@ -62,19 +64,21 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
-    var nombreCompleto by remember { mutableStateOf("") }
+fun ModificarPaciente(navigationController: NavHostController,viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+
+    var NombreCompleto by remember { mutableStateOf("") }
     var dni by remember { mutableStateOf("") }
-    var fotoDoctor by remember { mutableStateOf<Uri?>(null) }
-    var numeroDeIdentificacion by remember { mutableStateOf("") }
-    var especialidadMédica by remember { mutableStateOf("") }
-    var anosDeExperiencia by remember { mutableStateOf("") }
-    var horariosDeDisponibilidad by remember { mutableStateOf("") }
+    var FechaDeNacimiento by remember { mutableStateOf("") }
+    var GeneroDeElPaciente by remember { mutableStateOf("") }
+    var fotoPaciente by remember { mutableStateOf<Uri?>(null) }
     var direccion by remember { mutableStateOf("") }
     var numeroDeTelefono by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var idiomas by remember { mutableStateOf("") }
+    var Diagnosticomedico by remember { mutableStateOf("") }
+    var Nombredeltratante by remember { mutableStateOf("") }
+    var Numeromedico by remember { mutableStateOf("") }
+    var MedicamentosActuales by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
@@ -86,7 +90,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF000000),
-                        modifier = Modifier.clickable { navigationController.navigate("Seleccion") }
+                        modifier = Modifier.clickable { navigationController.navigate("MenuPaciente") }
                     )
                 }
             },
@@ -94,16 +98,12 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
         Box() {
             Column {
                 Text(
-                    text = "Formulario de Datos",
+                    text = "Modificar",
                     modifier = Modifier.padding(start = 20.dp),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
-                Text(
-                    text = "Información Personal",
-                    modifier = Modifier.padding(start = 20.dp),
-                    fontSize = 16.sp
-                )
+
             }
         }
         Box(
@@ -114,10 +114,10 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
             Column {
 
 
-                //--- Nombre de el Doctor ---
+                //--- Nombre de el paciente ---
                 OutlinedTextField(
-                    value = nombreCompleto,
-                    onValueChange = { nombreCompleto = it },
+                    value = NombreCompleto,
+                    onValueChange = { NombreCompleto = it },
                     label = { Text("Nombre completo", color = Color.Black, fontSize = 14.sp) },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     modifier = Modifier
@@ -142,7 +142,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.dni),
-                            contentDescription = "Dni - Nie",
+                            contentDescription = "Nie",
                             modifier = Modifier.size(20.dp)
                         )
                     },
@@ -153,14 +153,46 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
                     )
                 )
-
-                //--- Foto de  el Doctor ---
+                //--- fecha de nacimientode el paciente ---
+                OutlinedTextField(
+                    value = FechaDeNacimiento,
+                    onValueChange = { FechaDeNacimiento = it },
+                    label = { Text("Fecha de nacimiento", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.DateRange, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, end = 10.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA),
+                        unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Género de el paciente ---
+                OutlinedTextField(
+                    value = GeneroDeElPaciente, onValueChange = { GeneroDeElPaciente = it },
+                    label = { Text("Género", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.gender_fluid),
+                            contentDescription = "Gender",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Foto de  el paciente ---
                 val context = LocalContext.current
                 val bitmap = remember { mutableStateOf<Bitmap?>(null) }
 
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-                        fotoDoctor = uri
+                        fotoPaciente = uri
                     }
 
 
@@ -185,7 +217,7 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                                 .size(70.dp)
                                 .padding(5.dp)
                         ) {
-                            fotoDoctor?.let {
+                            fotoPaciente?.let {
                                 if (Build.VERSION.SDK_INT < 30) {
                                     bitmap.value = MediaStore.Images
                                         .Media.getBitmap(context.contentResolver, it)
@@ -231,131 +263,22 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         }
                     }
                 }
-
-                //--- Número de Identificación Médica ---
-                OutlinedTextField(
-                    value = numeroDeIdentificacion, onValueChange = { numeroDeIdentificacion = it },
-                    label = {
-                        Text(
-                            "Número de Identificación Médica",
-                            color = Color.Black,
-                            fontSize = 14.sp
-                        )
-                    },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.id_card),
-                            contentDescription = "Número de Identificación Médica",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp), maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Especialidad médica ---
-                OutlinedTextField(
-                    value = especialidadMédica, onValueChange = { especialidadMédica = it },
-                    label = { Text("Especialidad médica", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.caduceus),
-                            contentDescription = "Especialidad médica",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp), maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-
-                //--- Anos De Experiencia ---
-                OutlinedTextField(
-                    value = anosDeExperiencia, onValueChange = { anosDeExperiencia = it },
-                    label = { Text("Años De Experiencia", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.experience),
-                            contentDescription = "Años De Experiencia",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp), maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-
-                //--- Idiomas ---
-
-                OutlinedTextField(
-                    value = idiomas, onValueChange = { idiomas = it },
-                    label = { Text("Idiomas", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.language),
-                            contentDescription = "Idiomas",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp), maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-                //--- Horarios De Disponibilidad ---
-                OutlinedTextField(
-                    value = horariosDeDisponibilidad,
-                    onValueChange = { horariosDeDisponibilidad = it },
-                    label = {
-                        Text(
-                            "Horarios De Disponibilidad",
-                            color = Color.Black,
-                            fontSize = 14.sp
-                        )
-                    },
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.clock),
-                            contentDescription = "Horarios De Disponibilidad",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    maxLines = 1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
-                    )
-                )
-
+                //--- Direccíon de  el paciente ---
                 OutlinedTextField(
                     value = direccion,
                     onValueChange = { direccion = it },
-                    label = { Text("Dirección", color = Color.Black, fontSize = 14.sp) },
-                    leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                    label = { Text("Direccíon", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = { Icon(Icons.Outlined.LocationOn, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
                     )
                 )
-
-                //--- Número de teléfono ---
+                //--- Número de telfono de  el paciente ---
                 OutlinedTextField(
                     value = numeroDeTelefono,
                     onValueChange = { numeroDeTelefono = it },
@@ -363,14 +286,14 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- Correo electrónico ---
+                //--- Correro electronico de  el paciente ---
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -378,14 +301,14 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(start = 10.dp, end = 10.dp, top = 8.dp),
                     maxLines = 1,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xCE2268DA),
                         unfocusedBorderColor = Color.Black,
                     )
                 )
-                //--- contraseña ---
+                //--- Contraseña ---
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -400,8 +323,92 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                         unfocusedBorderColor = Color.Black,
                     )
                 )
+                //--- Información Médical ---
 
+                Text(
+                    text = "Información Médical",
+                    modifier = Modifier.padding(start = 10.dp, top = 14.dp),
+                    fontSize = 16.sp
+                )
 
+                //--- Información Médical ---
+
+                //--- Diagnóstico médico ---
+                OutlinedTextField(
+                    value = Diagnosticomedico, onValueChange = { Diagnosticomedico = it },
+                    label = { Text("Diagnóstico médico", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.stethoscope),
+                            contentDescription = "Diagnóstico",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Nombre del  tratante ---
+                OutlinedTextField(
+                    value = Nombredeltratante, onValueChange = { Nombredeltratante = it },
+                    label = { Text("Nombre del  tratante", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.doctor),
+                            contentDescription = "Nombre del  tratante",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp), maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Número de teléfono del médico tratante ---
+                OutlinedTextField(
+                    value = Numeromedico,
+                    onValueChange = { Numeromedico = it },
+                    label = {
+                        Text(
+                            "Número de teléfono del médico tratante",
+                            color = Color.Black,
+                            fontSize = 14.sp
+                        )
+                    },
+                    leadingIcon = { Icon(Icons.Outlined.Call, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA),
+                        unfocusedBorderColor = Color.Black,
+                    )
+                )
+                //--- Medicamentos actuales (nombre, dosis, frecuencia): ---
+                OutlinedTextField(
+                    value = MedicamentosActuales, onValueChange = { MedicamentosActuales = it },
+                    label = { Text("Medicamentos actuale", color = Color.Black, fontSize = 14.sp) },
+                    leadingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.pill),
+                            contentDescription = "Medicamentos actuale",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    maxLines = 1,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xCE2268DA), unfocusedBorderColor = Color.Black,
+                    )
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -410,70 +417,78 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                 ) {
 
                     val db = FirebaseFirestore.getInstance()
-                    val coleccion = "Doctores"
+                    val coleccion = "Pacientes"
                     val dato = hashMapOf(
 
-                        "nombreCompleto" to nombreCompleto.toString(),
+                        "NombreCompleto" to NombreCompleto.toString(),
                         "dni" to dni.toString(),
-                        "fotoDoctor" to fotoDoctor.toString(),
-                        "numeroDeIdentificacion" to numeroDeIdentificacion.toString(),
-                        "especialidadMédica" to especialidadMédica.toString(),
-                        "anosDeExperiencia" to anosDeExperiencia.toString(),
+                        "FechaDeNacimiento" to FechaDeNacimiento.toString(),
+                        "GeneroDeElPaciente" to GeneroDeElPaciente.toString(),
 
+                        "fotoPaciente" to fotoPaciente.toString(),
 
-                        "horariosDeDisponibilidad" to horariosDeDisponibilidad.toString(),
                         "direccion" to direccion.toString(),
-
                         "numeroDeTelefono" to numeroDeTelefono.toString(),
-                        "correoElectronico" to email.toString(),
-                        "contrasena" to password.toString(),
-                        "idiomas" to idiomas.toString(),
-
+                        "email" to email.toString(),
+                        "password" to password.toString(),
+                        "Diagnosticomedico" to Diagnosticomedico.toString(),
+                        "Nombredeltratante" to Nombredeltratante.toString(),
+                        "Numeromedico" to Numeromedico.toString(),
+                        "MedicamentosActuales" to MedicamentosActuales.toString(),
 
                         )
+
                     var mensajeConfirmacion by remember { mutableStateOf("") }
+
+
+
+
 
                     Button(
                         onClick = {
                             viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
                                 if (success) {
                                     navigationController.navigate("iniciar_sesion")
-
                                     db.collection(coleccion)
                                         .document(email)
                                         .set(dato)
                                         .addOnSuccessListener {
                                             mensajeConfirmacion = "Datos guardados correctamente"
-                                            nombreCompleto = ""
+
+                                            NombreCompleto = ""
                                             dni = ""
-                                            //   fotoDoctor = ""
-                                            numeroDeIdentificacion = ""
-                                            especialidadMédica = ""
-                                            anosDeExperiencia = ""
-                                            horariosDeDisponibilidad = ""
+                                            // fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
                                             direccion = ""
                                             numeroDeTelefono = ""
                                             email = ""
                                             password = ""
-                                            idiomas = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
 
 
                                         }
                                         .addOnFailureListener {
                                             mensajeConfirmacion =
                                                 "No se han podido guardar los datos. Intentelo de nuevo."
-                                            nombreCompleto = ""
+                                            NombreCompleto = ""
                                             dni = ""
-                                            //   fotoDoctor = ""
-                                            numeroDeIdentificacion = ""
-                                            especialidadMédica = ""
-                                            anosDeExperiencia = ""
-                                            horariosDeDisponibilidad = ""
+                                            //   fotoPaciente = ""
+                                            FechaDeNacimiento = ""
+                                            GeneroDeElPaciente = ""
                                             direccion = ""
                                             numeroDeTelefono = ""
                                             email = ""
                                             password = ""
-                                            idiomas = ""
+                                            Diagnosticomedico = ""
+                                            Nombredeltratante = ""
+                                            Numeromedico = ""
+                                            MedicamentosActuales = ""
+
+
                                         }
                                 } else {
                                     // Error al crear el usuario
@@ -481,9 +496,9 @@ fun RegistroDoctores(navigationController: NavHostController,viewModel: LoginScr
                                     println("Error al crear usuario: $errorMessage")
                                 }
                             }
-
-
                         },
+
+
                         modifier = Modifier
                             .width(180.dp)
                             .height(50.dp),

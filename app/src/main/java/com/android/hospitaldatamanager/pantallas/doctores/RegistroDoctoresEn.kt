@@ -437,6 +437,8 @@ fun RegistroDoctoresEn(navigationController: NavHostController ,viewModel: Login
                         onClick = {
                             viewModel.createUserWithEmailAndPassword(email, password) { success, errorMessage ->
                                 if (success) {
+                                    navigationController.navigate("iniciar_sesion")
+
                                     db.collection(coleccion)
                                         .document(email)
                                         .set(dato)
