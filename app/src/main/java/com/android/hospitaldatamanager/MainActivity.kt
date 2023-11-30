@@ -8,7 +8,6 @@ import com.android.hospitaldatamanager.pantallas.pacientes.mainPaciente
 import com.android.hospitaldatamanager.pantallas.pantallaPrincipal.Seleccion
 
 import com.android.hospitaldatamanager.ui.theme.HospitalDataManagerTheme
-import com.androuid.jetpackcomposeinstagram.iniciar_sesionEn
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,8 +15,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             HospitalDataManagerTheme {
 
-             // AppNavigation()
-mainPaciente()            }
+                AppNavigation()
+            }
         }
+
     }
 }

@@ -22,7 +22,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,17 +41,21 @@ fun main_AppEn(navigationController: NavHostController) {
 
 
             ) {
-            Column (modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(10.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.es),
                     contentDescription = "Horarios De Disponibilidad",
-                    modifier = Modifier.size(50.dp).clickable {navigationController.navigate("main_App")  }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable { navigationController.navigate("main_App") }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.en),
                     contentDescription = "Horarios De Disponibilidad",
-                    modifier = Modifier.size(46.dp).clickable { navigationController.navigate("main_AppEn") }
+                    modifier = Modifier
+                        .size(46.dp)
+                        .clickable { navigationController.navigate("main_AppEn") }
                 )
             }
             Image(
@@ -69,11 +74,8 @@ fun main_AppEn(navigationController: NavHostController) {
             }
             Box(
                 modifier = Modifier
-
-                    .padding(start = 63.dp, top = 82.dp)
+                    .padding(start = 82.dp, top = 82.dp)
                     .size(73.dp)
-
-
             ) {
                 Column {
                     Button(
@@ -82,7 +84,7 @@ fun main_AppEn(navigationController: NavHostController) {
                             .height(70.dp)
                             .padding(3.dp)
                             .width(70.dp)
-                            .clickable {  },
+                            .clickable { },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xff2268Da),
                             contentColor = Color.White
@@ -93,7 +95,9 @@ fun main_AppEn(navigationController: NavHostController) {
                             contentDescription = "",
                             Modifier.fillMaxSize()
                         )
-                    }}}
+                    }
+                }
+            }
 
 
         }

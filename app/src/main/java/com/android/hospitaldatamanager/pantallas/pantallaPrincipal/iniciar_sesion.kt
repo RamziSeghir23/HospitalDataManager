@@ -29,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -53,238 +54,169 @@ import com.android.hospitaldatamanager.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun iniciar_sesion(navigationController: NavHostController) {
-    TopAppBar(
-        { },
-        navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color(0xFF000000),
-                    modifier = Modifier.clickable { navigationController.navigate("main_App") }
-                )
-            }
-        },
-    )
-    Box(
-        Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
-
-        Body(
-            Modifier.align(Alignment.Center)
-        )
-        Footer(Modifier.align(Alignment.BottomCenter), navigationController)    }
-
-}
-
-@Composable
-fun Footer(modifier: Modifier, navigationController: NavHostController) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Spacer(modifier = Modifier.size(24.dp))
-        SignUp(navigationController = navigationController)
-        Spacer(modifier = Modifier.size(24.dp))
-    }
-}
-
-@Composable
-fun SignUp(navigationController: NavHostController) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "¿ No tienes una cuenta ?",
-            fontSize = 12.sp,
-            color = Color(0xFFB5B5B5)
-        )
-        Text(
-            text = "Registrar.",
-            modifier = Modifier.padding(horizontal = 8.dp).clickable {
-                navigationController.navigate("Seleccion")
-            },
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xff2268Da)
-        )
-    }
-}
-
-@Composable
-fun Body(modifier: Modifier) {
     var email by remember {
         mutableStateOf("")
     }
     var password by remember {
         mutableStateOf("")
     }
-    var isLoginEnable by remember {
-        mutableStateOf(false)
-    }
-    Column(modifier = modifier) {
-        ImageLogo(Modifier.align(Alignment.CenterHorizontally))
-        Spacer(modifier = Modifier.size(16.dp))
-        Email(email) {
-            email = it
-            isLoginEnable = enabledLogin(email, password)
-        }
-        Spacer(modifier = Modifier.size(8.dp))
-        Password(password) {
-            password = it
-            isLoginEnable = enabledLoginEn(email, password)
-        }
-        Spacer(modifier = Modifier.size(8.dp))
-        ForgotPassword(Modifier.align(Alignment.End))
-        Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable)
-        Spacer(modifier = Modifier.size(16.dp))
-        LoginDivider()
-        Spacer(modifier = Modifier.size(36.dp))
 
-    }
-
-}
-
-
-@Composable
-fun LoginDivider() {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-
-        Divider(
-            Modifier
-                .background(Color(0xFFF9FF9))
-                .height(1.dp)
-                .weight(1f)
-        )
-
-        Text(
-            text = "OR",
-            modifier = Modifier.padding(horizontal = 6.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFFB5B5B5)
-        )
-        Divider(
-            Modifier
-                .background(Color(0xFFF9FF9))
-                .height(1.dp)
-                .weight(1f)
-        )
-    }
-}
-
-@Composable
-fun LoginButton(LoginEnable: Boolean) {
-    Button(
-        onClick = {  },
-        enabled = LoginEnable,
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xff4ea8e9),
-            disabledContainerColor = Color(0xFFD5D5D5),
-            contentColor = Color.Black,
-            disabledContentColor = Color.White
-
-        )
-    ) {
-        Text(text = "Log in ")
-    }
-}
-fun enabledLogin(email: String, password: String) =
-    Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
-
-
-
-@Composable
-fun ForgotPassword(modifier: Modifier) {
-    Text(
-        text = "Has olvidado tu contraseña ?",
-        fontSize = 10.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xff2268Da),
-        modifier = modifier
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Password(password: String, onTextChanged: (String) -> Unit) {
-    var passwordVisibility by remember {
-        mutableStateOf(false)
-    }
-    OutlinedTextField(
-        value = password, onValueChange = { onTextChanged(it) },
-        modifier = Modifier
-            .fillMaxWidth(),
-        label = { Text(text = "Contraseña", color = Color.Black, fontSize = 12.sp) },
-        maxLines = 1,
-        singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Color(0xFF000000),
-            containerColor = Color(0xFFF1F1F1),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        trailingIcon = {
-            val imagen = if (passwordVisibility) {
-                Icons.Filled.Lock
-            } else {
-                Icons.Filled.Lock
-            }
-            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                Icon(imageVector = imagen, contentDescription = "show Password")
-            }
-        },
-        visualTransformation = if (passwordVisibility) {
-            VisualTransformation.None
-        } else {
-            PasswordVisualTransformation()
-        }
-    )
-
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Email(email: String, onTextChanged: (String) -> Unit) {
-    OutlinedTextField(
-        value = email, onValueChange = {
-            onTextChanged(it)
-        },
-        modifier = Modifier
-            .fillMaxWidth(),
-        label = { Text(text = "DNI - Correo electronico", color = Color.Black, fontSize = 12.sp) },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Color(0xFF000000),
-            containerColor = Color(0xFFF1F1F1),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        )
-
-    )
-
-
-}
-
-@Composable
-fun ImageLogo(modifier: Modifier) {
-
-    Image(painterResource(id = R.drawable.pngwing_com )  , contentDescription ="" ,
-        Modifier
-            .size(300.dp)
-            .padding(start = 80.dp))
     Column {
-        Text(text = "Bienvenido  de  nuevo !", fontSize = 30.sp)
-        Text(text = "Inicia sesiosesión para continuar",color = Color(0xF5979595), fontSize = 15.sp)
+        IconButton(onClick = {}) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = Color(0xFF000000), modifier = Modifier.clickable { navigationController.navigate("main_App") }
+            )
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.pngwing_com),
+            contentDescription = "",
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .size(300.dp)
+        )
+        Text(
+            text = "Bienvenido  de  nuevo !",
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 30.dp, top = 20.dp)
+        )
+
+        Column(modifier = Modifier.padding(20.dp)) {
+
+
+            TextField(
+                value = email, onValueChange = {
+                    email = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                placeholder = { Text(text = "DNI - Correo electronico") },
+                maxLines = 1,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color(0xFF000000),
+                    containerColor = Color(0xFFFFFFFF),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+
+            )
+            var passwordVisibility by remember {
+                mutableStateOf(false)
+            }
+            Spacer(modifier = Modifier.size(15.dp))
+
+            TextField(
+                value = password, onValueChange = { password = it },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                placeholder = { Text(text = "Contraseña") },
+                maxLines = 1,
+                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color(0xFF000000),
+                    containerColor = Color(0xFFFFFFFF),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    val imagen = if (passwordVisibility) {
+                        Icons.Filled.Lock
+                    } else {
+                        Icons.Filled.Lock
+                    }
+                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                        Icon(imageVector = imagen, contentDescription = "show Password")
+                    }
+                },
+                visualTransformation = if (passwordVisibility) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                }
+            )
+            Spacer(modifier = Modifier.size(5.dp))
+            Text(
+                text = "Has olvidado tu contraseña ?",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF4EA8E9),
+                modifier = Modifier.align(Alignment.End)
+            )
+            Spacer(modifier = Modifier.size(15.dp))
+
+            Button(
+                onClick = { },
+                enabled = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xff4ea8e9),
+                    disabledContainerColor = Color(0xFFD5D5D5),
+                    contentColor = Color.Black,
+                    disabledContentColor = Color.White
+
+                )
+            ) {
+                Text(text = "Iniciar sesión")
+            }
+            Spacer(modifier = Modifier.size(25.dp))
+
+
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+
+                Divider(
+                    Modifier
+                        .background(Color(0xFFF9FF9))
+                        .height(1.dp)
+                        .weight(1f)
+                )
+
+                Text(
+                    text = "O",
+                    modifier = Modifier.padding(horizontal = 6.dp),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFB5B5B5)
+                )
+                Divider(
+                    Modifier
+                        .background(Color(0xFFF9FF9))
+                        .height(1.dp)
+                        .weight(1f)
+                )
+            }
+            Spacer(modifier = Modifier.size(100.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "¿ No tienes una cuenta ?", fontSize = 12.sp,
+                    color = Color(0xFFB5B5B5)
+                )
+                Text(
+                    text = "Registrar.",
+                    modifier = Modifier.padding(horizontal = 8.dp).clickable { navigationController.navigate("Seleccion") },
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF4EA8E9)
+                )
+
+
+            }
+
+
+
+
+        }
+
     }
 }
-
-
-
-
