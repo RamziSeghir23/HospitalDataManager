@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,6 +44,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -83,32 +86,41 @@ fun mainPaciente(navigationController: NavHostController) {
                             )
                         }
                     }
-                    Box(modifier = Modifier.padding(40.dp)) {
+                    Box(
+                        modifier = Modifier.padding(
+                            top = 30.dp,
+                            start = 30.dp,
+                            end = 70.dp,
+                            bottom = 30.dp
+                        )
+                    ) {
                         Row {
                             Box(
                                 modifier = Modifier
                                     .size(65.dp)
 
                             ) {
-                            /*    Image(
-                                    painterResource(id = R.drawable.abuelo),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(percent = 60))
-                                )
+                                /*    Image(
+                                        painterResource(id = R.drawable.abuelo),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(RoundedCornerShape(percent = 60))
+                                    )
 
-                             */
+                                 */
                             }
                             Box(
                                 modifier = Modifier
-                                    .padding(top = 20.dp, start = 15.dp)
+                                    .padding(top = 20.dp)
                                     .fillMaxSize()
+
                             ) {
                                 Text(
                                     text = "Bienvendo a tu cuenta",
-                                    fontWeight = FontWeight.ExtraBold
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 22.sp
                                 )
                             }
                         }
@@ -206,6 +218,144 @@ fun mainPaciente(navigationController: NavHostController) {
                     }
 
                 }
+                //-- El nuevo --
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
+                        .height(230.dp)
+                ) {
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(20.dp)
+                    )
+                    Row {
+                        Text(text = "Mis Latidos", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.width(200.dp))
+                        Text(
+                            text = "Ver más",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xCE2268DA)
+                        )
+                    }
+                    Card(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 30.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0x2F435066)
+                        )
+                    ) {
+                       Column {
+                           Box(modifier = Modifier.padding(10.dp)){
+                               Row {
+
+                                       Image(
+                                           painterResource(id = R.drawable.heart_attack),
+                                           contentDescription = null,
+                                           contentScale = ContentScale.Crop,
+                                           modifier = Modifier
+                                               .size(40.dp)
+                                       )
+                                       Spacer(modifier = Modifier.width(250.dp))
+                                       Text(text = "61  RPM",fontSize = 14.sp,
+                                           fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+
+
+
+                               }
+                           }
+                           Row (modifier = Modifier
+                               .fillMaxWidth()
+                               .height(200.dp)
+                               .padding(start = 20.dp, end = 40.dp),
+                               horizontalArrangement = Arrangement.SpaceBetween) {
+                               Box(modifier =Modifier )
+                               Column {
+                                   Box(modifier = Modifier){
+                                       Image(
+                                           painterResource(id = R.drawable.upward_arrow),
+                                           contentDescription = null,
+                                           contentScale = ContentScale.Crop,
+                                           modifier = Modifier
+                                               .size(30.dp)
+                                       )
+                                   }
+                                   Spacer(modifier = Modifier)
+                                   Text(text = "120  RPM",fontSize = 12.sp,
+                                       fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp), color = Color(
+                                           0xFF49A04C
+                                       )
+                                   )
+
+                               }
+
+
+
+                               Column {
+                                   Box(modifier = Modifier){
+                                       Image(
+                                           painterResource(id = R.drawable.down_arrow),
+                                           contentDescription = null,
+                                           contentScale = ContentScale.Crop,
+                                           modifier = Modifier
+                                               .size(30.dp)
+                                       )
+                                   }
+                                   Spacer(modifier = Modifier)
+                                   Text(text = "60  RPM",fontSize = 12.sp,
+                                       fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp), color = Color.Red)
+
+                               }
+
+                               Column {
+                                   Box(modifier = Modifier){
+                                       Image(
+                                           painterResource(id = R.drawable.heart_beat),
+                                           contentDescription = null,
+                                           contentScale = ContentScale.Crop,
+                                           modifier = Modifier
+                                               .size(30.dp)
+                                       )
+                                   }
+                                   Spacer(modifier = Modifier)
+                                   Text(text = "61  RPM",fontSize = 12.sp,
+                                       fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+
+                               }
+
+
+                               Column {
+                                   Box(modifier = Modifier){
+                                       Image(
+                                           painterResource(id = R.drawable.sleep),
+                                           contentDescription = null,
+                                           contentScale = ContentScale.Crop,
+                                           modifier = Modifier
+                                               .size(30.dp)
+                                       )
+                                   }
+                                   Spacer(modifier = Modifier)
+                                   Text(text = "8 h 30 min",fontSize = 12.sp,
+                                       fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+
+                               }
+                           }
+                       }
+
+
+
+
+
+                    }
+
+
+                }
+
+
                 //--- Mis citas
                 Text(
                     text = "Mis citas",
@@ -509,9 +659,9 @@ fun mainPaciente(navigationController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(130.dp)
+                        .fillMaxHeight()
                 ) {
-                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Column(modifier = Modifier.padding(bottom = 100.dp)) {
 
 
                         Card(
@@ -561,12 +711,7 @@ fun mainPaciente(navigationController: NavHostController) {
                                             fontSize = 14.sp,
                                             modifier = Modifier.padding(top = 3.dp, bottom = 5.dp)
                                         )
-                                        Text(
-                                            text = "cita : 13 / 05 / 2023 A 10:00",
-                                            fontSize = 12.sp,
-                                            color = Color(0xFF504F4F),
-                                            modifier = Modifier.padding(top = 16.dp)
-                                        )
+
                                     }
                                 }
                                 //-- box De Boton --
@@ -738,7 +883,9 @@ fun mainPaciente(navigationController: NavHostController) {
                             imageVector = Icons.Rounded.Person,
                             contentDescription = "Icono",
                             tint = Color.Black,
-                            modifier = Modifier.size(48.dp).clickable { navigationController.navigate("MenuPrencipal") }
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable { navigationController.navigate("MenuPrencipal") }
                         )
                     }
 
